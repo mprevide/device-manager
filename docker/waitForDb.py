@@ -17,7 +17,8 @@ def wait_for_db(db_args):
             if CONFIG.create_db:
                 connection.autocommit = True
                 cursor = connection.cursor()
-                cursor.execute("select true from pg_database where datname = '%s';" % CONFIG.dbname)
+                cursor.execute(
+                    "select true from pg_database where datname = '%s';" % CONFIG.dbname)
                 if len(cursor.fetchall()) == 0:
                     print("will attempt to create database")
                     cursor.execute("CREATE database %s;" % CONFIG.dbname)
@@ -25,6 +26,8 @@ def wait_for_db(db_args):
             exit(0)
         except psycopg2.Error as e:
             print("Database connection error | {}".format(e.pgerror))
+        except Exception as e:
+            print("Error | {}".format(e))
 
         retries -= 1
         print('Will try again in ' + str(db_args.wait))
