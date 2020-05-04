@@ -39,6 +39,7 @@ if [ ${command} = 'start' ]; then
         exec gunicorn DeviceManager.main:app \
                   --bind 0.0.0.0:5000 \
                   --reload -R \
+                  --preload \
                   --timeout ${TIMEOUT} \
                   --access-logfile - \
                   --log-file - \
